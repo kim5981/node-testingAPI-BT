@@ -13,6 +13,10 @@ async function addFriend(friend){
     // returns the added friend
 }
 
+async function updateFriend(id, changes){
+    return db("friends").update(changes).where("friend_id", id).then(() => getById(id)) 
+}
+
 async function removeFriend(id){
     let result = await getById(id)
     await db("friends").delete().where("friend_id", id)
@@ -23,5 +27,6 @@ module.exports = {
     getAllFriends,
     getById,
     addFriend,
+    updateFriend,
     removeFriend
 }

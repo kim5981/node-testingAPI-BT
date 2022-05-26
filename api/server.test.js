@@ -59,6 +59,21 @@ describe("testing friends model functions", () => {
         expect(result).toHaveLength(8)
     })
 
+    test("updateFriend", async () => {
+        let result 
+        result = await Friends.updateFriend(1, {  first_name: "Renge", last_name: "Houshakuji"  })
+        //it returns the proper obj
+        expect(result).toMatchObject({ friend_id: 1, first_name: "Renge", last_name: "Houshakuji" })
+
+        // that id was actually updated
+        result = await Friends.getById(1)
+        expect(result).toHaveProperty("first_name", "Renge")
+
+        // cannot update a non-existent friend
+        result = await Friends.updateFriend(9999999999, { first_name: "kim", last_name: "r" })
+        expect(result).not.toBeDefined()
+    })
+
     test("removeFriend", async () => {
         let result 
         result = await Friends.removeFriend(7)
@@ -77,4 +92,10 @@ describe("testing friends model functions", () => {
         result = await Friends.removeFriend(9999999999999)
         expect(result).not.toBeDefined()
     })
+})
+
+describe("successful HTTP requests", () => {
+
+
+
 })
