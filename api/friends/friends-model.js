@@ -5,7 +5,7 @@ function getAllFriends(){
 }
 
 function getById(id){
-    return
+    return db("friends").where("friend_id", id).first()
 }
 
 function addFriend(friend){

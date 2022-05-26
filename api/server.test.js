@@ -32,4 +32,20 @@ describe("testing friends model functions", () => {
             { first_name: "Takashi", last_name: "Morinozuka" },
         ])
     })
+
+
+    test("getById", async () => {
+        let result
+        result = await Friends.getById(1)
+        // exists w/i database
+        expect(result).toBeDefined()
+
+        // returns object from id
+        expect(result).toMatchObject({ first_name: "Haruhi", last_name: "Fujioka" })
+        
+        // calling a non-existent id doesn't work
+        result = await Friends.getById(1000000)
+        expect(result).not.toBeDefined()
+    })
+
 })
