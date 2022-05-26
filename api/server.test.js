@@ -100,7 +100,30 @@ describe("successful HTTP requests", () => {
         let response = await supertest(server).get("/")
         expect(response.status).toBe(200)
         expect(response.body).toEqual({ message: "server connected" })
+    })
 
+    test("GET /friends", async () => {
+        let response = await supertest(server).get("/friends")
+        expect(response.status).toBe(200)
+        expect(response.body).toMatchObject([
+            { first_name: "Haruhi", last_name: "Fujioka" },
+            { first_name: "Tamaki", last_name: "Suoh" },
+            { first_name: "Kyoya", last_name: "Ootori" },
+            { first_name: "Kaoru", last_name: "Hitachiin" },
+            { first_name: "Hikaru", last_name: "Hitachiin" },
+            { first_name: "Mitsukuni", last_name: "Haninozuka" },
+            { first_name: "Takashi", last_name: "Morinozuka" },
+        ])
+    })
+
+    test("GET '/friends/:friend_id", async () => {
+        let response = await supertest(server).get("/friends/2")
+        expect(response.status).toBe(200)
+        expect(response.body).toHaveProperty("first_name", "Tamaki")
+        
+        // cannot GET non-existent friend
+        response = await supertest(server).get("/friends/9999999999")
+        expect(response.status).toBe(404)
     })
 
 })

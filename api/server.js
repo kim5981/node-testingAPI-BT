@@ -16,20 +16,23 @@ server.get("/friends", (req, res, next) => {
     })
 })
 
-server.get("/friends/:id", (req, res, next) => {
-    
+server.get("/friends/:id", async (req, res, next) => {
+    const friend = await Friends.getById(req.params.id)
+    friend == null 
+    ? res.status(404).json({ message: "friend not found" })
+    : res.json(friend)
 })
 
 server.post("/friends", (req, res, next) => {
-    
+    res.json("posting")
 })
 
 server.delete("/friends/:id", (req, res, next) => {
-    
+    res.json("deleting")
 })
 
 server.put("/friends/:id", (req, res, next) => {
-    
+    res.json("updating!")
 })
 
 
