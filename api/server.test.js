@@ -42,10 +42,39 @@ describe("testing friends model functions", () => {
 
         // returns object from id
         expect(result).toMatchObject({ first_name: "Haruhi", last_name: "Fujioka" })
-        
+
         // calling a non-existent id doesn't work
         result = await Friends.getById(1000000)
         expect(result).not.toBeDefined()
     })
 
+    test("addFriend", async () => {
+        let result
+        result = await Friends.addFriend({ first_name: "Renge", last_name: "Houshakuji" })
+        //adding a friend returns the object you just added
+        expect(result).toMatchObject({ friend_id: 8, first_name: "Renge", last_name: "Houshakuji" })
+        
+        // verify the db now has an additional item w/i it
+        result = await Friends.getAllFriends()
+        expect(result).toHaveLength(8)
+    })
+
+    test("removeFriend", async () => {
+        let result 
+        result = await Friends.removeFriend(7)
+        //returns the removed friend
+        expect(result).toMatchObject({ friend_id: 7, first_name: "Takashi", last_name: "Morinozuka" })
+
+        //friend by that ID to no longer be defined
+        result = await Friends.getById(7)
+        expect(result).not.toBeDefined()
+
+        //friend db to have one less in db
+        result = await Friends.getAllFriends()
+        expect(result).toHaveLength(6)
+
+        // cannot remove a non-existent friend
+        result = await Friends.removeFriend(9999999999999)
+        expect(result).not.toBeDefined()
+    })
 })

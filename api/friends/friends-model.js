@@ -8,22 +8,20 @@ function getById(id){
     return db("friends").where("friend_id", id).first()
 }
 
-function addFriend(friend){
-    return
+async function addFriend(friend){
+    return db("friends").insert(friend).then(([id]) => getById(id)) 
+    // returns the added friend
 }
 
-function updateFriend(id, changes){
-    return
-}
-
-function removeFriend(id){
-    return
+async function removeFriend(id){
+    let result = await getById(id)
+    await db("friends").delete().where("friend_id", id)
+    return result
 }
 
 module.exports = {
     getAllFriends,
     getById,
     addFriend,
-    updateFriend,
     removeFriend
 }
