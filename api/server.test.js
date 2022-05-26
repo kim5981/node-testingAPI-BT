@@ -96,6 +96,11 @@ describe("testing friends model functions", () => {
 
 describe("successful HTTP requests", () => {
 
+    test("server is connected", async () => {
+        let response = await supertest(server).get("/")
+        expect(response.status).toBe(200)
+        expect(response.body).toEqual({ message: "server connected" })
 
+    })
 
 })
