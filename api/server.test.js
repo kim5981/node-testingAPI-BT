@@ -120,10 +120,26 @@ describe("successful HTTP requests", () => {
         let response = await supertest(server).get("/friends/2")
         expect(response.status).toBe(200)
         expect(response.body).toHaveProperty("first_name", "Tamaki")
-        
+
         // cannot GET non-existent friend
         response = await supertest(server).get("/friends/9999999999")
         expect(response.status).toBe(404)
     })
 
+    test("POST /friends", async () => {
+        let response 
+        response = await supertest(server).post("/friends").send({ first_name: "kim" })
+        expect(response.status).toBe(201)
+        expect(response.body).toHaveProperty("first_name", "kim")
+        response = await supertest(server).post('/friends').send({});
+        expect(response.status).toBe(400)
+    })
+
+    test("DELETE /friends/:friend_id", async () => {
+        
+    })
+
+    test("PUT /friends/:friend_id", async () => {
+        
+    })
 })

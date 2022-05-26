@@ -23,8 +23,18 @@ server.get("/friends/:id", async (req, res, next) => {
     : res.json(friend)
 })
 
-server.post("/friends", (req, res, next) => {
-    res.json("posting")
+server.post("/friends", async (req, res) => {
+    try{
+        if(req.body.name?.constructor !== String) {
+            res.status(400).json({ message: 'missing name' });
+            return;
+          }
+      
+          const result = await Friends.insert(req.body);
+          res.status(201).json(result)
+    }catch(err){
+        res.status(500).json({ message: err.message })
+    }
 })
 
 server.delete("/friends/:id", (req, res, next) => {
