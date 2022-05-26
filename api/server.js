@@ -25,13 +25,10 @@ server.get("/friends/:id", async (req, res, next) => {
 
 server.post("/friends", async (req, res) => {
     try{
-        if(req.body.name?.constructor !== String) {
-            res.status(400).json({ message: 'missing name' });
-            return;
-          }
-      
-          const result = await Friends.insert(req.body);
-          res.status(201).json(result)
+        const result = await Friends.insert(req.body);
+        req.body.name?.constructor !== String
+        ? res.status(400).json({ message: 'missing name' })
+        :  res.status(201).json(result)
     }catch(err){
         res.status(500).json({ message: err.message })
     }

@@ -128,7 +128,9 @@ describe("successful HTTP requests", () => {
 
     test("POST /friends", async () => {
         let response 
-        response = await supertest(server).post("/friends").send({ first_name: "kim" })
+        response = await supertest(server)
+            .post("/friends")
+            .send({ first_name: "kim", last_name: "r" })
         expect(response.status).toBe(201)
         expect(response.body).toHaveProperty("first_name", "kim")
         response = await supertest(server).post('/friends').send({});
